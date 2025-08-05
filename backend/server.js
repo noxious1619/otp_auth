@@ -3,24 +3,20 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
+import mongoose from "mongoose";
+import authRoutes from "./backend/routes/auth.js";
 
 
 dotenv.config();
-connectDB();
+connectDB();  //this manages the error for the presence of the mongoose api
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Sample route to test
-app.get("/", (req, res) => {
-  res.send("API is running...");
-});
+app.use("/api/auth", authRoutes);
 
 const PORT = process.env.PORT || 5000;
-
-//routes defined
-app.use("/api/auth", authRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
